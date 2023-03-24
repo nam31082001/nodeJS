@@ -1,0 +1,102 @@
+<div class="content">
+    <h1>Công việc Hằng Ngày</h1>
+    <div class="add_job">
+        <form class="form" method="POST" action="/stor">
+            <span>
+                <input class="balloon" id="job" name="content" type="text" placeholder="Công Việc" />
+                <label for="content">Công việc</label>
+            </span>
+            <span>
+                <input class="balloon" id="start" name="start" type="text" placeholder="Time Start" />
+                <label for="start">Start</label>
+            </span>
+            <span>
+                <input class="balloon" id="end" name="end" type="text" placeholder="Time End" />
+                <label for="end">End</label>
+            </span>
+            <br />
+            <div class="container_btn">
+                <button class="btn" type="submit">Thêm JOB</button>
+            </div>
+        </form>
+    </div>
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">start</th>
+                <th scope="col">end</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each todos}}
+            <tr>
+                <th scope="row">1</th>
+                <td> {{this.content}}</td>
+                <td> {{this.start}}</td>
+                <td> {{this.end}}</td>
+                <td>
+                    <a href="/${{this._id}}/edit" class="btn btn-outline-primary update" >Update</a>
+                    <a href="" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal"
+                        data-id="{{this._id}}">Delete</a>
+                </td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xóa khóa học ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn chắc chắn muốn xóa </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy</button>
+                <button type="button" id="btn_delete_course" class="btn btn-secondary" data-dismiss="modal">Xóa
+                    bỏ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<form method="POST" id="delete-course-form"></form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var coursesId
+        var btnDeleteCourse = document.getElementById('btn_delete_course')
+        var deleteForm = document.getElementById('delete-course-form')
+        var update = $('.update')
+        var editJob = $('.edit_add')
+
+
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            coursesId = button.data('id')
+        })
+        btnDeleteCourse.onclick = function () {
+            deleteForm.action = '/' + coursesId + '?_method=DELETE'
+            deleteForm.submit()
+        }
+
+    })
+</script>
